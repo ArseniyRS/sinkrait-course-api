@@ -7,6 +7,8 @@
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "experimentalDecorators": true,
+    
   },
   "exclude": ["./node_modules"]
 }
