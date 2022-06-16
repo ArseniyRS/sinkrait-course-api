@@ -1,6 +1,6 @@
 export interface ILogger{
   logger: unknown
-  info: () => void
-  error: () => void
-  warn: () => void
+  info: (...args: unknown[]) => void
+  error: (...args: unknown[]) => void
+  warn: (...args: unknown[]) => void
 }
