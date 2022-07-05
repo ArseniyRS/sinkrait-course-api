@@ -1,38 +1,40 @@
-import {  Router, Response } from "express";
-import { injectable } from "inversify";
-import { ILogger } from "../logger/logger.interface";
-import { IControllerRoute } from "./route.interface";
+import { Router, Response } from 'express';
+import { injectable } from 'inversify';
+import { ILogger } from '../logger/logger.interface';
+import { IControllerRoute } from './route.interface';
 import 'reflect-metadata';
 
 @injectable()
 export abstract class BaseController {
-  private readonly _router: Router;
-  
-  constructor(private logger: ILogger){
-    this._router = Router();
-  }
+	private readonly _router: Router;
 
-  get router(): Router {
-    return this._router;
-  }
+	constructor(private logger: ILogger) {
+		this._router = Router();
+	}
 
-  public send<T>(res: Response, code: number, message: T){
-    res.type('application/json');
-    return res.sendStatus(code).json(message);
-  }
+	get router(): Router {
+		return this._router;
+	}
 
-  public ok<T>(res: Response, message: T){
-    this.send(res, 200, message);
-  }
+	public send<T>(res: Response, code: number, message: T): Response<T, Record<string, T>> {
+		res.type('application/json');
+		return res.sendStatus(code).json(message);
+	}
 
-  public created(res: Response){
-    res.sendStatus(201);
-  }
-  protected bindRoutes(routes: IControllerRoute[]){
-    routes.forEach(route => {
-      this.logger.info(`Binding ${route.method} to ${route.path}`);
-      const handler = route.func.bind(this);
-      this.router[route.method](route.path, handler);
-    });
-  }
+	public ok<T>(res: Response, message: T): Response<T, Record<string, T>> {
+		return this.send<T>(res, 200, message);
+	}
+
+	public created(res: Response) {
+		return res.sendStatus(201);
+	}
+	protected bindRoutes(routes: IControllerRoute[]): void {
+		routes.forEach((route) => {
+			this.logger.info(`Binding ${route.method} to ${route.path}`);
+			const middleware = route.middlewares?.map((m) => m.execute.bind(m));
+			const handler = route.func.bind(this);
+			const pipline = middleware ? [...middleware, handler] : handler;
+			this.router[route.method](route.path, pipline);
+		});
+	}
 }
