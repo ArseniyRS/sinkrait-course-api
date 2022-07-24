@@ -2,6 +2,7 @@ import { Container, ContainerModule, interfaces } from 'inversify';
 import { App } from './app';
 import { ConfigService } from './config/config.service';
 import { IConfigService } from './config/config.service.interface';
+import { PrismaService } from './database/prisma.service';
 import { ExeptionFilter } from './errors/exeption.filter';
 import { IExceptionFilter } from './errors/exeption.filter.interface';
 import { ILogger } from './logger/logger.interface';
@@ -16,11 +17,12 @@ interface IBootstrapReturn {
 	app: App;
 }
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
-	bind<ILogger>(TYPES.ILogger).to(LoggerService);
+	bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
 	bind<IExceptionFilter>(TYPES.ExeptionFilter).to(ExeptionFilter);
 	bind<UserController>(TYPES.UserController).to(UserController);
 	bind<IUserService>(TYPES.UserService).to(UserService);
-	bind<IConfigService>(TYPES.ConfigService).to(ConfigService);
+	bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
+	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 	bind<App>(TYPES.Application).to(App);
 });
 
