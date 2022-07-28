@@ -6,17 +6,19 @@ import { TYPES } from '../types';
 import 'reflect-metadata';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
-import { User } from './user.entity';
 import { IUserService } from './interfaces/user.service.interface';
 import { HttpError } from '../errors/http-error.class';
 import { ValidateMiddleware } from '../common/validate.middleware';
 import { IUserController } from './interfaces/users.controller.interface';
+import { sign } from 'jsonwebtoken';
+import { IConfigService } from '../config/config.service.interface';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
 	constructor(
 		@inject(TYPES.UserService) private userService: IUserService,
 		@inject(TYPES.ILogger) private loggerService: ILogger,
+		@inject(TYPES.ConfigService) private configService: IConfigService,
 	) {
 		super(loggerService);
 		this.bindRoutes([
@@ -26,7 +28,12 @@ export class UserController extends BaseController implements IUserController {
 				func: this.register,
 				middlewares: [new ValidateMiddleware(UserRegisterDto)],
 			},
-			{ path: '/login', method: 'post', func: this.login },
+			{
+				path: '/login',
+				method: 'post',
+				func: this.login,
+				middlewares: [new ValidateMiddleware(UserLoginDto)],
+			},
 		]);
 	}
 
@@ -42,7 +49,36 @@ export class UserController extends BaseController implements IUserController {
 		this.ok(res, result);
 	}
 
-	login({ body }: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): void {
-		this.ok(res, 'login');
+	async login(
+		{ body }: Request<{}, {}, UserLoginDto>,
+		res: Response,
+		next: NextFunction,
+	): Promise<void> {
+		const result = await this.userService.validateUser(body);
+		if (!result) {
+			return next(new HttpError(400, 'Invalid email or password'));
+		}
+		const jwt = await this.signJWT(body.email, this.configService.get('JWT_SECRET'));
+		this.ok(res, { jwt });
+	}
+	async info({ body }: Request, res: Response, next: NextFunction): Promise<void> {}
+
+	private async signJWT(email: string, secret: string): Promise<string> {
+		return new Promise<string>((resolve, reject) => {
+			sign(
+				{
+					email,
+					iat: Math.floor(Date.now() / 1000),
+				},
+				secret,
+				{ algorithm: 'HS256' },
+				(err, token) => {
+					if (err) {
+						reject(err);
+					}
+					resolve(token as string);
+				},
+			);
+		});
 	}
 }

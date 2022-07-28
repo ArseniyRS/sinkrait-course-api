@@ -9,7 +9,9 @@ import { ILogger } from './logger/logger.interface';
 import { LoggerService } from './logger/logger.service';
 import { TYPES } from './types';
 import { IUserService } from './users/interfaces/user.service.interface';
+import { IUsersRepository } from './users/interfaces/users.repository.interface';
 import { UserController } from './users/users.controller';
+import { UsersRepository } from './users/users.repository';
 import { UserService } from './users/users.service';
 
 interface IBootstrapReturn {
@@ -23,6 +25,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IUserService>(TYPES.UserService).to(UserService);
 	bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
 	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
+	bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository);
 	bind<App>(TYPES.Application).to(App);
 });
 

@@ -9,3 +9,4 @@ export interface IControllerRoute {
 	method: keyof Pick<Router, 'get' | 'post' | 'put' | 'delete' | 'patch'>;
 	middlewares?: IMiddleware[];
 }
+export type ExpressReturnType = Response<any, Record<string, any>>;
