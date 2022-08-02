@@ -1,5 +1,11 @@
 import { Container, ContainerModule, interfaces } from 'inversify';
 import { App } from './app';
+import { CategoriesController } from './categories/categories.controller';
+import { CategoriesRepository } from './categories/categories.repository';
+import { CategoriesService } from './categories/categories.service';
+import { ICategoriesController } from './categories/interfaces/categories.controller.interface';
+import { ICategoriesRepository } from './categories/interfaces/categories.repository.interface';
+import { ICategoriesService } from './categories/interfaces/categories.service.interface';
 import { ConfigService } from './config/config.service';
 import { IConfigService } from './config/config.service.interface';
 import { PrismaService } from './database/prisma.service';
@@ -26,6 +32,10 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
 	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 	bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository);
+
+	bind<ICategoriesRepository>(TYPES.CategoriesRepository).to(CategoriesRepository);
+	bind<ICategoriesService>(TYPES.CategoriesService).to(CategoriesService);
+	bind<ICategoriesController>(TYPES.CategoriesController).to(CategoriesController);
 	bind<App>(TYPES.Application).to(App);
 });
 

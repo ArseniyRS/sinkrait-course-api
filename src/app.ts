@@ -13,6 +13,7 @@ import { IUserController } from './users/interfaces/users.controller.interface';
 import { IExceptionFilter } from './errors/exeption.filter.interface';
 import { PrismaService } from './database/prisma.service';
 import { AuthMiddleware } from './common/auth.middleware';
+import { CategoriesController } from './categories/categories.controller';
 @injectable()
 export class App {
 	app: Express;
@@ -22,6 +23,7 @@ export class App {
 	constructor(
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.UserController) private userController: UserController,
+		@inject(TYPES.CategoriesController) private categoriesController: CategoriesController,
 		@inject(TYPES.ExeptionFilter) private exeptionFilter: IExceptionFilter,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
 		@inject(TYPES.PrismaService) private prismaService: PrismaService,
@@ -37,6 +39,7 @@ export class App {
 	}
 	useRoutes(): void {
 		this.app.use('/users', this.userController.router);
+		this.app.use('/categories', this.categoriesController.router);
 	}
 	useExeptionFilters(): void {
 		this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter));

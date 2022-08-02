@@ -16,4 +16,62 @@ model UserModel {
   password    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
+  comments    CommentModel[]
+}
+
+
+model CategoryModel {
+  id          Int @id @default(autoincrement())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  categoryId  Int? 
+  category    CategoryModel? @relation("CategoryCategory",fields: [categoryId], references: [id])
+  categories  CategoryModel[] @relation("CategoryCategory")
+  courses     CourseModel[] @relation()
+  // categoryId  Int
+  // category    CategoryModel[] @relation(fields: [categoryId], references: [id])
+  // categories  CategoryModel[]
+}
+
+
+model CourseModel {
+  id            Int @id @default(autoincrement())
+  title         String
+  description   String
+  rate          Int      @default(0)
+  price         Decimal  @default(0)
+  creditPrice   Decimal  @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+
+  categories    CategoryModel[] @relation()
+  tags          TagModel[] @relation()
+  comments      CommentModel[] @relation()
+}
+
+
+model TagModel {
+  id          Int @id @default(autoincrement())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  
+  courses     CourseModel[] @relation()
+}
+
+
+model CommentModel {
+  id          Int @id @default(autoincrement())
+  title       String
+  content     String
+  rate        Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  
+  courseId    Int?
+  course      CourseModel? @relation(fields: [courseId], references: [id])
+
+  userId      Int 
+  user        UserModel @relation(fields: [userId], references: [id])
 }
