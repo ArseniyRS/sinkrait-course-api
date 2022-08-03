@@ -3,6 +3,8 @@
 
 package-lock.json
 
-# /prisma/migrations
-# /prisma/dev.db
-# /prisma/dev.db-journal
+/prisma/migrations
+/prisma/dev.db
+/prisma/dev.db-journal
+.gitconfig
+.npmrc

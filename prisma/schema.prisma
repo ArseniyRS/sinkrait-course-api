@@ -28,7 +28,7 @@ model CategoryModel {
   categoryId  Int? 
   category    CategoryModel? @relation("CategoryCategory",fields: [categoryId], references: [id])
   categories  CategoryModel[] @relation("CategoryCategory")
-  courses     CourseModel[] @relation()
+  courses     CourseModel[] 
   // categoryId  Int
   // category    CategoryModel[] @relation(fields: [categoryId], references: [id])
   // categories  CategoryModel[]
@@ -45,9 +45,11 @@ model CourseModel {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
 
-  categories    CategoryModel[] @relation()
-  tags          TagModel[] @relation()
-  comments      CommentModel[] @relation()
+  categoryId    Int
+  category      CategoryModel @relation(fields: [categoryId], references: [id])
+
+  tags          CoursesOnTags[]
+  comments      CommentModel[]
 }
 
 
@@ -57,9 +59,18 @@ model TagModel {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
   
-  courses     CourseModel[] @relation()
+  courses     CoursesOnTags[]
 }
 
+model CoursesOnTags{
+  courseId Int
+  tagId Int
+  
+  course CourseModel @relation(fields:[courseId], references: [id])
+  tag TagModel @relation(fields: [tagId], references: [id])
+
+  @@id([courseId, tagId])
+}
 
 model CommentModel {
   id          Int @id @default(autoincrement())
@@ -72,6 +83,6 @@ model CommentModel {
   courseId    Int?
   course      CourseModel? @relation(fields: [courseId], references: [id])
 
-  userId      Int 
+  userId      Int
   user        UserModel @relation(fields: [userId], references: [id])
 }

@@ -8,6 +8,12 @@ import { ICategoriesRepository } from './categories/interfaces/categories.reposi
 import { ICategoriesService } from './categories/interfaces/categories.service.interface';
 import { ConfigService } from './config/config.service';
 import { IConfigService } from './config/config.service.interface';
+import { CoursesController } from './courses/coureses.controller';
+import { CoursesRepository } from './courses/courses.repository';
+import { CoursesService } from './courses/courses.service';
+import { ICoursesController } from './courses/interfaces/courses.controller.interface';
+import { ICoursesRepository } from './courses/interfaces/courses.repository.interface';
+import { ICoursesService } from './courses/interfaces/courses.service.interface';
 import { PrismaService } from './database/prisma.service';
 import { ExeptionFilter } from './errors/exeption.filter';
 import { IExceptionFilter } from './errors/exeption.filter.interface';
@@ -36,6 +42,11 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<ICategoriesRepository>(TYPES.CategoriesRepository).to(CategoriesRepository);
 	bind<ICategoriesService>(TYPES.CategoriesService).to(CategoriesService);
 	bind<ICategoriesController>(TYPES.CategoriesController).to(CategoriesController);
+
+	bind<ICoursesRepository>(TYPES.CategoriesRepository).to(CoursesRepository);
+	bind<ICoursesService>(TYPES.CoursesService).to(CoursesService);
+	bind<ICoursesController>(TYPES.CoursesController).to(CoursesController);
+
 	bind<App>(TYPES.Application).to(App);
 });
 
