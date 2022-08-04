@@ -1,0 +1,24 @@
+version: '3'
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+
+  sinkrait-course-api: 
+    image: "sinkrait-course-api:lastest"
+    build: 
+      context: .
+      target: dev
+    container_name: "sinkrait-course-api"
+    restart: always
+    ports:
+      - "80:8080"
+    volumes:
+      - ./.env:/otp/app/.env

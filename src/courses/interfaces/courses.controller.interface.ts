@@ -5,4 +5,7 @@ export interface ICoursesController {
 	updateCourse(req: Request, res: Response, next: NextFunction): Promise<void>;
 	deleteCourse(req: Request, res: Response, next: NextFunction): Promise<void>;
 	getAllCourses(req: Request, res: Response, next: NextFunction): Promise<void>;
+
+	getCoursesByCategory(req: Request, res: Response, next: NextFunction): Promise<void>;
+	getCoursesByTags(req: Request, res: Response, next: NextFunction): Promise<void>;
 }

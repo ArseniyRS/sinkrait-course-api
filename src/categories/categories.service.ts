@@ -5,6 +5,8 @@ import { TYPES } from '../types';
 import { CategoryDto } from './dto/category.dto';
 import { ICategoriesRepository } from './interfaces/categories.repository.interface';
 import { ICategoriesService } from './interfaces/categories.service.interface';
+import 'reflect-metadata';
+import { ErrorCatcher } from '../decorators/ErrorCatcher';
 
 @injectable()
 export class CategoriesService implements ICategoriesService {

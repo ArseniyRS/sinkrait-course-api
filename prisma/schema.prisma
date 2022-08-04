@@ -29,9 +29,6 @@ model CategoryModel {
   category    CategoryModel? @relation("CategoryCategory",fields: [categoryId], references: [id])
   categories  CategoryModel[] @relation("CategoryCategory")
   courses     CourseModel[] 
-  // categoryId  Int
-  // category    CategoryModel[] @relation(fields: [categoryId], references: [id])
-  // categories  CategoryModel[]
 }
 
 
@@ -45,10 +42,10 @@ model CourseModel {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
 
-  categoryId    Int
-  category      CategoryModel @relation(fields: [categoryId], references: [id])
+  categoryId    Int?
+  category      CategoryModel? @relation(fields: [categoryId], references: [id])
 
-  tags          CoursesOnTags[]
+  tags          TagModel[] 
   comments      CommentModel[]
 }
 
@@ -59,18 +56,18 @@ model TagModel {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
   
-  courses     CoursesOnTags[]
+  courses     CourseModel[]
 }
 
-model CoursesOnTags{
-  courseId Int
-  tagId Int
+// model CoursesOnTags{
+//   courseId Int
+//   tagId Int
   
-  course CourseModel @relation(fields:[courseId], references: [id])
-  tag TagModel @relation(fields: [tagId], references: [id])
+//   course CourseModel @relation(fields:[courseId], references: [id])
+//   tag TagModel @relation(fields: [tagId], references: [id])
 
-  @@id([courseId, tagId])
-}
+//   @@id([courseId, tagId])
+// }
 
 model CommentModel {
   id          Int @id @default(autoincrement())

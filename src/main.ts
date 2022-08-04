@@ -19,6 +19,12 @@ import { ExeptionFilter } from './errors/exeption.filter';
 import { IExceptionFilter } from './errors/exeption.filter.interface';
 import { ILogger } from './logger/logger.interface';
 import { LoggerService } from './logger/logger.service';
+import { ITagsController } from './tags/interfaces/tags.controller.interface';
+import { ITagsRepository } from './tags/interfaces/tags.repository.interface';
+import { ITagsService } from './tags/interfaces/tags.service.interface';
+import { TagsController } from './tags/tags.controller';
+import { TagsRepository } from './tags/tags.repository';
+import { TagsService } from './tags/tags.service';
 import { TYPES } from './types';
 import { IUserService } from './users/interfaces/user.service.interface';
 import { IUsersRepository } from './users/interfaces/users.repository.interface';
@@ -33,19 +39,24 @@ interface IBootstrapReturn {
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
 	bind<IExceptionFilter>(TYPES.ExeptionFilter).to(ExeptionFilter);
-	bind<UserController>(TYPES.UserController).to(UserController);
-	bind<IUserService>(TYPES.UserService).to(UserService);
 	bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
 	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
+
 	bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository);
+	bind<IUserService>(TYPES.UserService).to(UserService);
+	bind<UserController>(TYPES.UserController).to(UserController);
 
 	bind<ICategoriesRepository>(TYPES.CategoriesRepository).to(CategoriesRepository);
 	bind<ICategoriesService>(TYPES.CategoriesService).to(CategoriesService);
 	bind<ICategoriesController>(TYPES.CategoriesController).to(CategoriesController);
 
-	bind<ICoursesRepository>(TYPES.CategoriesRepository).to(CoursesRepository);
+	bind<ICoursesRepository>(TYPES.CoursesRepository).to(CoursesRepository);
 	bind<ICoursesService>(TYPES.CoursesService).to(CoursesService);
 	bind<ICoursesController>(TYPES.CoursesController).to(CoursesController);
+
+	bind<ITagsRepository>(TYPES.TagsRepository).to(TagsRepository);
+	bind<ITagsService>(TYPES.TagsService).to(TagsService);
+	bind<ITagsController>(TYPES.TagsController).to(TagsController);
 
 	bind<App>(TYPES.Application).to(App);
 });

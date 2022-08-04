@@ -17,5 +17,5 @@ export class CourseDto {
 	categoryId: number;
 	@IsOptional()
 	@IsNumber({}, { each: true })
-	tags: Array<number>[];
+	tags: Array<number>;
 }

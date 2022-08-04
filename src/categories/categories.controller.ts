@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { inject, injectable } from 'inversify';
 import { BaseController } from '../common/base.controller';
 import { ValidateMiddleware } from '../common/validate.middleware';
+import { TryCatchWrapper } from '../decorators/ErrorCatcher';
 import { HttpError } from '../errors/http-error.class';
 import { ILogger } from '../logger/logger.interface';
 import { TYPES } from '../types';
@@ -39,40 +40,24 @@ export class CategoriesController extends BaseController implements ICategoriesC
 			},
 		]);
 	}
-
+	@TryCatchWrapper
 	async createCategory({ body }: Request, res: Response, next: NextFunction): Promise<void> {
 		const result = await this.categoriesService.createCategory(body);
-		if (!result) {
-			return next(new HttpError(500, 'Error'));
-		}
 		this.ok(res, result);
 	}
-
+	@TryCatchWrapper
 	async updateCategory(req: Request, res: Response, next: NextFunction): Promise<void> {
 		const result = await this.categoriesService.updateCategory(req.body);
-		if (!result) {
-			return next(new HttpError(500, 'Error'));
-		}
 		this.ok(res, result);
 	}
-
+	@TryCatchWrapper
 	async deleteCategory(req: Request, res: Response, next: NextFunction): Promise<void> {
-		try {
-			const result = await this.categoriesService.deleteCategory(req.body.id);
-			this.ok(res, result);
-		} catch (e) {
-			if (e instanceof Prisma.PrismaClientKnownRequestError) {
-				return next(new HttpError(500, e.message));
-			}
-			return next(new HttpError(500, 'Error'));
-		}
+		const result = await this.categoriesService.deleteCategory(req.body.id);
+		this.ok(res, result);
 	}
-
+	@TryCatchWrapper
 	async getAllCategories(req: Request, res: Response, next: NextFunction): Promise<void> {
 		const result = await this.categoriesService.getAllCategories();
-		if (!result) {
-			return next(new HttpError(500, 'Error'));
-		}
 		this.ok(res, result);
 	}
 }

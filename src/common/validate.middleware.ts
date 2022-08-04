@@ -1,6 +1,7 @@
 import { ClassConstructor, plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
 import { Request, Response, NextFunction } from 'express';
+import QueryString from 'qs';
 import { IMiddleware } from './route.interface';
 
 export class ValidateMiddleware implements IMiddleware {

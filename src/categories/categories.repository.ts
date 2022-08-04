@@ -4,6 +4,7 @@ import { PrismaService } from '../database/prisma.service';
 import { TYPES } from '../types';
 import { CategoryDto } from './dto/category.dto';
 import { ICategoriesRepository } from './interfaces/categories.repository.interface';
+import 'reflect-metadata';
 
 @injectable()
 export class CategoriesRepository implements ICategoriesRepository {
