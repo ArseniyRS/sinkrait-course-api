@@ -1,0 +1,15 @@
+
+FROM node:14-alpine as prod
+
+WORKDIR /app
+
+ADD package.json package.json
+
+RUN npm install
+
+ADD . .
+
+RUN npm install -g nodemon
+RUN npx prisma generate
+RUN npx prisma migrate
+CMD [ "npm", "run", "dev" ]

@@ -1,6 +1,6 @@
 version: '3'
 services:
-  sinkrait-course-api-db:
+  course-api-db-test:
     image: postgres:14.1-alpine
     restart: always
     environment:
@@ -13,19 +13,5 @@ services:
       - 'pgdata:/var/lib/postgresql/data/'
     # volumes: 
     #   - db:/var/lib/postgresql/data
-
-  sinkrait-course-api: 
-    image: "sinkrait-course-api:lastest"
-    build: 
-      context: .
-      dockerfile: ./docker/Dockerfile.dev
-    container_name: "sinkrait-course-api"
-    restart: always
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./.env:/app/.env
-
 volumes:
   pgdata:
-
