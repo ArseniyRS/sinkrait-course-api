@@ -11,5 +11,5 @@ ADD . .
 
 RUN npm install -g nodemon
 RUN npx prisma generate
-RUN npx prisma migrate dev --name=init
+RUN npx prisma migrate 
 CMD [ "npm", "run", "dev" ]
