@@ -1,19 +1,5 @@
 version: '3'
 services:
-  # sinkrait-course-api-db:
-  #   image: postgres:14.1-alpine
-  #   restart: always
-  #   environment:
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
-  #     - POSTGRES_DB=course
-  #   ports:
-  #     - '5432:5432'
-  #   volumes:
-  #     - 'pgdata:/var/lib/postgresql/data/'
-    # volumes: 
-    #   - db:/var/lib/postgresql/data
-
   sinkrait-course-api: 
     image: "sinkrait-course-api:lastest"
     build: 
@@ -26,6 +12,5 @@ services:
     volumes:
       - ./.env:/app/.env
 
-# volumes:
-#   pgdata:
+
 
