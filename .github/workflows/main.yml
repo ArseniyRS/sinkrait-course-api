@@ -1,19 +1,20 @@
-name: Publish Docker
+name: Deploy
 
-on: 
-  push: 
-    branches: [main]
+on:
+  push:
+    branches: [ main ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    steps: 
-      - uses: actions/checkout@main
-      - name: Publish to registry
-        uses: elgohr/Publish-Docker-Github-Action@main
-        with:
-          registry: docker.pkg.github.com
-          name: docker.pkg.github.com/sinkrait00/sinkrait-course-api/sinkrait-course-api
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: "develop"
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: alex-ac/github-action-ssh-docker-compose@master
+      name: Docker-Compose Remote Deployment
+      with:
+        ssh_host: {{ secrets.HOST }}
+        ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh_user: ${{ secrets.SSH_USER }}
+        docker_compose_filename: './docker-compose.dev.yml'
