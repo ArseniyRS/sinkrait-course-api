@@ -21,20 +21,27 @@ export class CoursesRepository implements ICoursesRepository {
 	async createCourse({
 		title,
 		description,
+		img,
 		price,
 		creditPrice,
 		categoryId,
 		tags,
+		benefits,
 	}: CourseDto): Promise<CourseModel> {
+		const imgLink: string = img as string;
 		return this.prismaService.client.courseModel.create({
 			data: {
 				title,
+				img: imgLink,
 				description,
 				price,
 				creditPrice,
 				categoryId,
 				tags: {
 					connect: tags ? tags.map((id: number) => ({ id })) : [],
+				},
+				benefits: {
+					connect: benefits ? benefits.map((id: number) => ({ id })) : [],
 				},
 			},
 		});
@@ -45,20 +52,27 @@ export class CoursesRepository implements ICoursesRepository {
 		title,
 		description,
 		price,
+		img,
 		creditPrice,
 		categoryId,
 		tags,
+		benefits,
 	}: CourseDto): Promise<CourseModel> {
+		const imgLink: string = img as string;
 		return this.prismaService.client.courseModel.update({
 			where: { id },
 			data: {
-				title: title,
-				description: description,
-				price: price,
-				creditPrice: creditPrice,
-				categoryId: categoryId,
+				title,
+				img: imgLink,
+				description,
+				price,
+				creditPrice,
+				categoryId,
 				tags: {
 					connect: tags ? tags.map((id: number) => ({ id })) : [],
+				},
+				benefits: {
+					connect: benefits ? benefits.map((id: number) => ({ id })) : [],
 				},
 			},
 		});

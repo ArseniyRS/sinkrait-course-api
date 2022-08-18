@@ -5,8 +5,8 @@ generator client{
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model UserModel {
@@ -34,6 +34,7 @@ model CategoryModel {
 
 model CourseModel {
   id            Int @id @default(autoincrement())
+  img           String
   title         String
   description   String
   rate          Int      @default(0)
@@ -46,28 +47,43 @@ model CourseModel {
   category      CategoryModel? @relation(fields: [categoryId], references: [id])
 
   tags          TagModel[] 
+  skills        SkillModel[]
   comments      CommentModel[]
+  benefits      BenefitModel[]
 }
 
+model BenefitModel{
+  id            Int @id @default(autoincrement())
+  result        String
+  courses       CourseModel[]
+  benefits      BenefitParametersModel[]
+}
+
+model BenefitParametersModel {
+  id            Int @id @default(autoincrement())
+  title         String
+  description   String?
+  benefitId     Int?
+  benefit       BenefitModel? @relation(fields: [benefitId], references: [id])
+}
 
 model TagModel {
   id          Int @id @default(autoincrement())
   name        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
-  
+  skills      SkillModel[]
   courses     CourseModel[]
 }
+model SkillModel{
+  tagId       Int
+  tag         TagModel @relation(fields: [tagId], references: [id])
+  courseId    Int
+  course      CourseModel @relation(fields: [courseId], references: [id])
 
-// model CoursesOnTags{
-//   courseId Int
-//   tagId Int
-  
-//   course CourseModel @relation(fields:[courseId], references: [id])
-//   tag TagModel @relation(fields: [tagId], references: [id])
+  @@id([courseId, tagId])
+}
 
-//   @@id([courseId, tagId])
-// }
 
 model CommentModel {
   id          Int @id @default(autoincrement())

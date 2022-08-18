@@ -7,6 +7,8 @@ import { LoggerService } from './logger/logger.service';
 import { TYPES } from './types';
 import { UserController } from './users/users.controller';
 import { json } from 'body-parser';
+import fileUpload from 'express-fileupload';
+import cors from 'cors';
 import 'reflect-metadata';
 import { IConfigService } from './config/config.service.interface';
 import { IUserController } from './users/interfaces/users.controller.interface';
@@ -37,6 +39,8 @@ export class App {
 	}
 
 	useMiddleware(): void {
+		this.app.use(cors());
+		this.app.use(fileUpload());
 		this.app.use(json());
 		const authMiddleware = new AuthMiddleware(this.configService.get('JWT_SECRET'));
 		this.app.use(authMiddleware.execute.bind(authMiddleware));

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { UploadedFile } from 'express-fileupload';
 import { inject, injectable } from 'inversify';
 import { parse } from 'querystring';
 import { BaseController } from '../common/base.controller';
@@ -66,8 +67,9 @@ export class CoursesController extends BaseController implements ICoursesControl
 	}
 
 	@TryCatchWrapper
-	async createCourse({ body }: Request, res: Response, next: NextFunction): Promise<void> {
-		const result = await this.coursesService.createCourse(body);
+	async createCourse({ body, files }: Request, res: Response, next: NextFunction): Promise<void> {
+		const img = files?.img;
+		const result = await this.coursesService.createCourse({ ...body, img });
 		this.ok(res, result);
 	}
 

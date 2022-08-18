@@ -1,4 +1,6 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { UploadedFile } from 'express-fileupload';
+import { IsFile } from '../../utils/file.validator';
 
 export class CourseDto {
 	@IsOptional()
@@ -6,6 +8,8 @@ export class CourseDto {
 	id: number;
 	@IsString()
 	title: string;
+	@IsFile({ mime: ['image/jpg', 'image/png', 'image/jpeg'] })
+	img: UploadedFile | string;
 	@IsString()
 	description: string;
 	@IsNumber()
@@ -18,4 +22,11 @@ export class CourseDto {
 	@IsOptional()
 	@IsNumber({}, { each: true })
 	tags: Array<number>;
+	@IsOptional()
+	@IsNumber({}, { each: true })
+	benefits: Array<number>;
+}
+
+export class CourseDtoModel extends CourseDto {
+	img: string;
 }
