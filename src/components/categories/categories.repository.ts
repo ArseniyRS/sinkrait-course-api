@@ -1,7 +1,7 @@
 import { CategoryModel, Prisma } from '@prisma/client';
 import { inject, injectable } from 'inversify';
-import { PrismaService } from '../database/prisma.service';
-import { TYPES } from '../types';
+import { PrismaService } from '../../database/prisma.service';
+import { TYPES } from '../../types';
 import { CategoryDto } from './dto/category.dto';
 import { ICategoriesRepository } from './interfaces/categories.repository.interface';
 import 'reflect-metadata';

@@ -37,7 +37,7 @@ model CourseModel {
   img           String
   title         String
   description   String
-  rate          Int      @default(0)
+  rate          CourseRating?
   price         Decimal  @default(0)
   creditPrice   Decimal  @default(0)
   createdAt     DateTime @default(now())
@@ -84,6 +84,14 @@ model SkillModel{
   @@id([courseId, tagId])
 }
 
+model CourseRating{
+  id          Int @id @default(autoincrement())
+  count       Int @default(0)
+  averageRate Int @default(0)
+
+  courseId    Int @unique
+  course      CourseModel @relation(fields: [courseId], references: [id])
+}
 
 model CommentModel {
   id          Int @id @default(autoincrement())

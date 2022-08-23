@@ -1,12 +1,11 @@
 import { CategoryModel, Prisma } from '@prisma/client';
 import { inject, injectable } from 'inversify';
-import { ILogger } from '../logger/logger.interface';
-import { TYPES } from '../types';
+import { ILogger } from '../../logger/logger.interface';
+import { TYPES } from '../../types';
 import { CategoryDto } from './dto/category.dto';
 import { ICategoriesRepository } from './interfaces/categories.repository.interface';
 import { ICategoriesService } from './interfaces/categories.service.interface';
 import 'reflect-metadata';
-import { ErrorCatcher } from '../decorators/ErrorCatcher';
 
 @injectable()
 export class CategoriesService implements ICategoriesService {

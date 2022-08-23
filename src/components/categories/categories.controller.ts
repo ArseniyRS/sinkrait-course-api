@@ -1,12 +1,11 @@
 import { Prisma } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import { inject, injectable } from 'inversify';
-import { BaseController } from '../common/base.controller';
-import { ValidateMiddleware } from '../common/validate.middleware';
-import { TryCatchWrapper } from '../decorators/ErrorCatcher';
-import { HttpError } from '../errors/http-error.class';
-import { ILogger } from '../logger/logger.interface';
-import { TYPES } from '../types';
+import { BaseController } from '../../common/base.controller';
+import { ValidateMiddleware } from '../../common/validate.middleware';
+import { TryCatchWrapper } from '../../decorators/ErrorCatcher';
+import { ILogger } from '../../logger/logger.interface';
+import { TYPES } from '../../types';
 import { CategoryDto } from './dto/category.dto';
 import { ICategoriesController } from './interfaces/categories.controller.interface';
 import { ICategoriesService } from './interfaces/categories.service.interface';

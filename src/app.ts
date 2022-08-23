@@ -5,19 +5,18 @@ import { ExeptionFilter } from './errors/exeption.filter';
 import { ILogger } from './logger/logger.interface';
 import { LoggerService } from './logger/logger.service';
 import { TYPES } from './types';
-import { UserController } from './users/users.controller';
+import { UserController } from './components/users/users.controller';
 import { json } from 'body-parser';
 import fileUpload from 'express-fileupload';
 import cors from 'cors';
 import 'reflect-metadata';
 import { IConfigService } from './config/config.service.interface';
-import { IUserController } from './users/interfaces/users.controller.interface';
 import { IExceptionFilter } from './errors/exeption.filter.interface';
 import { PrismaService } from './database/prisma.service';
 import { AuthMiddleware } from './common/auth.middleware';
-import { CategoriesController } from './categories/categories.controller';
-import { CoursesController } from './courses/coureses.controller';
-import { TagsController } from './tags/tags.controller';
+import { CategoriesController } from './components/categories/categories.controller';
+import { CoursesController } from './components/courses/coureses.controller';
+import { TagsController } from './components/tags/tags.controller';
 @injectable()
 export class App {
 	app: Express;
