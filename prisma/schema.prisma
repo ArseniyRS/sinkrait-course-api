@@ -34,7 +34,7 @@ model CategoryModel {
 
 model CourseModel {
   id            Int @id @default(autoincrement())
-  img           String
+  img           String?
   title         String
   description   String
   rate          CourseRating?

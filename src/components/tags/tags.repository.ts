@@ -1,7 +1,7 @@
 import { Prisma, TagModel } from '@prisma/client';
 import { inject, injectable } from 'inversify';
-import { PrismaService } from '../database/prisma.service';
-import { TYPES } from '../types';
+import { PrismaService } from '../../database/prisma.service';
+import { TYPES } from '../../types';
 import 'reflect-metadata';
 import { ITagsRepository } from './interfaces/tags.repository.interface';
 import { TagDto } from './dto/tag.dto';

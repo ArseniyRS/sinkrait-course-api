@@ -1,7 +1,7 @@
 import { CategoryModel, Prisma, TagModel } from '@prisma/client';
 import { inject, injectable } from 'inversify';
-import { ILogger } from '../logger/logger.interface';
-import { TYPES } from '../types';
+import { ILogger } from '../../logger/logger.interface';
+import { TYPES } from '../../types';
 
 import 'reflect-metadata';
 import { ITagsService } from './interfaces/tags.service.interface';

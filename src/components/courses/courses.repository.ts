@@ -1,8 +1,7 @@
 import { CourseModel } from '@prisma/client';
-import { connect } from 'http2';
 import { inject, injectable } from 'inversify';
-import { PrismaService } from '../database/prisma.service';
-import { TYPES } from '../types';
+import { PrismaService } from '../../database/prisma.service';
+import { TYPES } from '../../types';
 import { CourseDto } from './dto/Course.dto';
 import { ICoursesRepository } from './interfaces/courses.repository.interface';
 
@@ -14,6 +13,7 @@ export class CoursesRepository implements ICoursesRepository {
 		return this.prismaService.client.courseModel.findMany({
 			include: {
 				tags: true,
+				rate: true,
 			},
 		});
 	}
@@ -28,11 +28,10 @@ export class CoursesRepository implements ICoursesRepository {
 		tags,
 		benefits,
 	}: CourseDto): Promise<CourseModel> {
-		const imgLink: string = img as string;
 		return this.prismaService.client.courseModel.create({
 			data: {
 				title,
-				img: imgLink,
+				img,
 				description,
 				price,
 				creditPrice,
@@ -43,6 +42,10 @@ export class CoursesRepository implements ICoursesRepository {
 				benefits: {
 					connect: benefits ? benefits.map((id: number) => ({ id })) : [],
 				},
+			},
+			include: {
+				tags: true,
+				benefits: true,
 			},
 		});
 	}
@@ -58,12 +61,11 @@ export class CoursesRepository implements ICoursesRepository {
 		tags,
 		benefits,
 	}: CourseDto): Promise<CourseModel> {
-		const imgLink: string = img as string;
 		return this.prismaService.client.courseModel.update({
 			where: { id },
 			data: {
 				title,
-				img: imgLink,
+				img,
 				description,
 				price,
 				creditPrice,

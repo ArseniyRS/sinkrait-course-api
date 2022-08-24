@@ -9,3 +9,4 @@ package-lock.json
 /prisma/dev.db-journal
 .gitconfig
 .npmrc
+/uploads

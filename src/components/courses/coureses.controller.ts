@@ -1,14 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { UploadedFile } from 'express-fileupload';
 import { inject, injectable } from 'inversify';
-import { parse } from 'querystring';
-import { BaseController } from '../common/base.controller';
-import { ValidateMiddleware } from '../common/validate.middleware';
-import { TryCatchWrapper } from '../decorators/ErrorCatcher';
-import { ILogger } from '../logger/logger.interface';
-import { TYPES } from '../types';
+import { BaseController } from '../../common/base.controller';
+import { MulterMiddleware } from '../../common/multer.middleware';
+import { ValidateMiddleware } from '../../common/validate.middleware';
+import { TryCatchWrapper } from '../../decorators/ErrorCatcher';
+import { ILogger } from '../../logger/logger.interface';
+import { TYPES } from '../../types';
 import { CourseDto } from './dto/Course.dto';
-import { CourseByCategoryDto } from './dto/CourseByCategory.dto';
 import { CourseByTagsDto } from './dto/CourseByTags.dto';
 import { ICoursesController } from './interfaces/courses.controller.interface';
 import { ICoursesService } from './interfaces/courses.service.interface';
@@ -31,7 +29,7 @@ export class CoursesController extends BaseController implements ICoursesControl
 				method: 'post',
 				path: '/',
 				func: this.createCourse,
-				middlewares: [new ValidateMiddleware(CourseDto)],
+				middlewares: [new MulterMiddleware(), new ValidateMiddleware(CourseDto)],
 			},
 			{
 				method: 'put',
@@ -67,9 +65,8 @@ export class CoursesController extends BaseController implements ICoursesControl
 	}
 
 	@TryCatchWrapper
-	async createCourse({ body, files }: Request, res: Response, next: NextFunction): Promise<void> {
-		const img = files?.img;
-		const result = await this.coursesService.createCourse({ ...body, img });
+	async createCourse({ body, file }: Request, res: Response, next: NextFunction): Promise<void> {
+		const result = await this.coursesService.createCourse({ ...body, img: file?.path });
 		this.ok(res, result);
 	}
 

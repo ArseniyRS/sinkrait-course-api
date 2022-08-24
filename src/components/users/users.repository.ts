@@ -1,7 +1,7 @@
 import { UserModel } from '@prisma/client';
 import { inject, injectable } from 'inversify';
-import { PrismaService } from '../database/prisma.service';
-import { TYPES } from '../types';
+import { PrismaService } from '../../database/prisma.service';
+import { TYPES } from '../../types';
 import { IUsersRepository } from './interfaces/users.repository.interface';
 import { User } from './user.entity';
 

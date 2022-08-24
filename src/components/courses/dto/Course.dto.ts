@@ -1,6 +1,4 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
-import { UploadedFile } from 'express-fileupload';
-import { IsFile } from '../../utils/file.validator';
+import { IsNumber, IsOptional, IsString, ValidateIf } from 'class-validator';
 
 export class CourseDto {
 	@IsOptional()
@@ -8,25 +6,26 @@ export class CourseDto {
 	id: number;
 	@IsString()
 	title: string;
-	@IsFile({ mime: ['image/jpg', 'image/png', 'image/jpeg'] })
-	img: UploadedFile | string;
+	@IsOptional()
+	img: string;
 	@IsString()
 	description: string;
 	@IsNumber()
+	@ValidateIf((object, value) => isNaN(+value))
 	price: number;
 	@IsNumber()
+	@ValidateIf((object, value) => isNaN(+value))
 	creditPrice: number;
 	@IsOptional()
 	@IsNumber()
+	@ValidateIf((object, value) => value != 'null')
 	categoryId: number;
 	@IsOptional()
 	@IsNumber({}, { each: true })
+	@ValidateIf((object, value) => value != 'null')
 	tags: Array<number>;
 	@IsOptional()
 	@IsNumber({}, { each: true })
+	@ValidateIf((object, value) => value != 'null')
 	benefits: Array<number>;
-}
-
-export class CourseDtoModel extends CourseDto {
-	img: string;
 }

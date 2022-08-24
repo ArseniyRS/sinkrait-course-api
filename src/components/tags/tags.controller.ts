@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { inject, injectable } from 'inversify';
-import { BaseController } from '../common/base.controller';
-import { ValidateMiddleware } from '../common/validate.middleware';
-import { TryCatchWrapper } from '../decorators/ErrorCatcher';
-import { ILogger } from '../logger/logger.interface';
-import { TYPES } from '../types';
+import { BaseController } from '../../common/base.controller';
+import { ValidateMiddleware } from '../../common/validate.middleware';
+import { TryCatchWrapper } from '../../decorators/ErrorCatcher';
+import { ILogger } from '../../logger/logger.interface';
+import { TYPES } from '../../types';
 import { TagDto } from './dto/tag.dto';
 import { ITagsController } from './interfaces/tags.controller.interface';
 import { ITagsService } from './interfaces/tags.service.interface';
